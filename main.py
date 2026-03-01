@@ -196,7 +196,8 @@ class DailyPregnancyMorningPlugin(Star):
 
         size_text = week_profile.get("size", "发育中")
 
-        topic_title = str(daily_entry.get("title", "均衡饮食与规律作息"))
+        raw_topic_title = str(daily_entry.get("title", "均衡饮食与规律作息"))
+        topic_title = self._format_topic_title(raw_topic_title, day_no)
         topic_summary = custom_tip or str(daily_entry.get("summary", "保持产检与均衡营养。"))
         foods = daily_entry.get("foods", [])[:4]
         boosts = daily_entry.get("boost", [])[:3]
@@ -380,7 +381,9 @@ class DailyPregnancyMorningPlugin(Star):
             body = raw_tip
 
         # 阅读点仅保留“第X天”口径，移除所有“孕X周+Y天”片段。
-        body = re.sub(r"（孕\\d+周\\+\\d+天）", "", body).strip()
+        body = re.sub(r"（孕\d+周\+\d+天）", "", body)
+        body = re.sub(r"孕\d+周\+\d+天", "", body)
+        body = re.sub(r"\s{2,}", " ", body).strip()
 
         safe_source = source
         if not safe_source:
@@ -390,6 +393,14 @@ class DailyPregnancyMorningPlugin(Star):
                 safe_source = "每日阅读"
 
         return f"{safe_source}：第{day_no}天；{body.strip()}"
+
+    def _format_topic_title(self, raw_title: str, day_no: int) -> str:
+        title = raw_title.strip()
+        title = re.sub(r"｜?孕\d+周第\d+天", "", title).strip()
+        title = re.sub(r"（孕\d+周\+\d+天）", "", title).strip()
+        if not title:
+            title = "今日孕期重点"
+        return f"{title}｜第{day_no}天"
 
     def _load_subscriptions(self):
         if not self._storage_path.exists():
