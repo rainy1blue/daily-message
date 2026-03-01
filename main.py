@@ -201,7 +201,9 @@ class DailyPregnancyMorningPlugin(Star):
         boosts = daily_entry.get("boost", [])[:3]
         notes = daily_entry.get("notes", [])[:3]
         comfort = str(daily_entry.get("comfort", self._fallback_comfort(day_no)))
-        book_tip = str(daily_entry.get("book_tip", "")).strip()
+        book_tip_raw = str(daily_entry.get("book_tip", "")).strip()
+        book_source = str(daily_entry.get("book_source", "")).strip()
+        book_tip = self._format_book_tip(book_tip_raw, book_source, day_no, week, day_in_week)
 
         lines = [custom_greeting or f"🌅 早安！{date_text}", status_line]
 
@@ -363,6 +365,27 @@ class DailyPregnancyMorningPlugin(Star):
         if not isinstance(pool, list) or not pool:
             return "今天也要开开心心的，宝宝正在努力成长，妈妈辛苦了。"
         return str(pool[(max(day_no, 1) - 1) % len(pool)])
+
+    def _format_book_tip(
+        self, raw_tip: str, source: str, day_no: int, week: int, day_in_week: int
+    ) -> str:
+        if not raw_tip:
+            return ""
+
+        # 统一重写阅读点头部，避免 JSON 内预写的孕周口径与当前展示口径不一致。
+        if "；" in raw_tip:
+            _, body = raw_tip.split("；", 1)
+        else:
+            body = raw_tip
+
+        safe_source = source
+        if not safe_source:
+            if "：" in raw_tip:
+                safe_source = raw_tip.split("：", 1)[0].strip()
+            else:
+                safe_source = "每日阅读"
+
+        return f"{safe_source}：第{day_no}天（孕{week}周+{day_in_week}天）；{body.strip()}"
 
     def _load_subscriptions(self):
         if not self._storage_path.exists():
