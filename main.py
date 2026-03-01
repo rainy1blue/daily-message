@@ -170,16 +170,18 @@ class DailyPregnancyMorningPlugin(Star):
 
         if gestational_days is None:
             day_no = 1
-            week = 1
-            day_in_week = 0
+            week = 0
+            day_in_week = 1
             status_line = "💝【温馨提示】尚未设置预产期，先按第1天生成示例内容"
         else:
             day_no = max(1, gestational_days)
-            week = (day_no - 1) // 7 + 1
-            day_in_week = (day_no - 1) % 7
+            week = day_no // 7
+            day_in_week = day_no % 7
             status_line = f"💝【温馨提示】今日是怀孕第{day_no}天（约第{week}周+{day_in_week}天）"
 
-        week_profile = self._find_week_profile(week)
+        # 内容库按 1~40 周组织，这里把“显示周数”映射为内容周数（+1）
+        content_week = min(max(week + 1, 1), 40)
+        week_profile = self._find_week_profile(content_week)
         daily_entry = self._get_daily_entry(day_no)
         custom_tip = self._get_custom_tip(day_no)
 
