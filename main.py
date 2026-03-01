@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import re
 from datetime import date, datetime, timedelta
 from pathlib import Path
 from typing import Any, Optional
@@ -378,6 +379,9 @@ class DailyPregnancyMorningPlugin(Star):
         else:
             body = raw_tip
 
+        # 阅读点仅保留“第X天”口径，移除所有“孕X周+Y天”片段。
+        body = re.sub(r"（孕\\d+周\\+\\d+天）", "", body).strip()
+
         safe_source = source
         if not safe_source:
             if "：" in raw_tip:
@@ -385,7 +389,7 @@ class DailyPregnancyMorningPlugin(Star):
             else:
                 safe_source = "每日阅读"
 
-        return f"{safe_source}：第{day_no}天（孕{week}周+{day_in_week}天）；{body.strip()}"
+        return f"{safe_source}：第{day_no}天；{body.strip()}"
 
     def _load_subscriptions(self):
         if not self._storage_path.exists():
