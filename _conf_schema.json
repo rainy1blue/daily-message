@@ -1,0 +1,56 @@
+{
+  "enabled": {
+    "description": "启用插件",
+    "type": "bool",
+    "hint": "关闭后不会启动每日定时推送",
+    "default": true
+  },
+  "send_time": {
+    "description": "每日发送时间",
+    "type": "string",
+    "hint": "24 小时制，例如 08:00",
+    "default": "08:00"
+  },
+  "timezone": {
+    "description": "时区",
+    "type": "string",
+    "hint": "IANA 时区名，例如 Asia/Shanghai",
+    "default": "Asia/Shanghai"
+  },
+  "due_date": {
+    "description": "预产期",
+    "type": "string",
+    "hint": "格式 YYYY-MM-DD；填写后优先用于计算孕周（可留空）",
+    "default": ""
+  },
+  "lmp_date": {
+    "description": "孕期第一天（末次月经第一天）",
+    "type": "string",
+    "hint": "格式 YYYY-MM-DD；默认按 2026-02-26 为第42天倒推得到 2026-01-16",
+    "default": "2026-01-16"
+  },
+  "gestational_days": {
+    "description": "当前孕周天数",
+    "type": "int",
+    "hint": "当未填写预产期时使用，例如 100 表示孕 14 周 + 2 天",
+    "default": 0
+  },
+  "greeting": {
+    "description": "问候语（可选）",
+    "type": "string",
+    "hint": "填写后将覆盖默认“🌅 早安！xxxx年xx月xx日”标题行",
+    "default": ""
+  },
+  "content_file": {
+    "description": "本地内容文件路径",
+    "type": "string",
+    "hint": "默认 data/pregnancy_content.json，可改成你自己的 JSON 文件",
+    "default": "data/pregnancy_content.json"
+  },
+  "custom_knowledge": {
+    "description": "自定义孕期知识",
+    "type": "string",
+    "hint": "每行一条；填写后将覆盖“今日主题”的总结文案",
+    "default": ""
+  }
+}
