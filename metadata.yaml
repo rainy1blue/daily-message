@@ -1,9 +1,9 @@
-name: astrbot_plugin_daily_message
+name: astrbot_plugin_pregnancy_daily_care
 display_name: 孕早安日报
-desc: 每日定时向 QQ 群推送孕期宝宝发育进度和孕期知识。
-version: v1.4.0
-author: xdy
-repo: https://github.com/yourname/astrbot_plugin_daily_message
+desc: 根据设定的怀孕时间，每日推送孕期小知识、当天宝宝发育情况以及注意事项等
+version: v1.0.0
+author: rainy1blue
+repo: https://github.com/rainy1blue/pregnancy-daily-care
 support_platforms:
   - aiocqhttp
 astrbot_version: ">=4.16,<5"
