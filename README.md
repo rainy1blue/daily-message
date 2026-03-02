@@ -12,7 +12,7 @@
 
 默认使用本地预制 JSON：
 
-- [/Users/xdy/Desktop/AstrBot/data/plugins/daily-message/data/pregnancy_content.json](/Users/xdy/Desktop/AstrBot/data/plugins/daily-message/data/pregnancy_content.json)
+- [`data/pregnancy_content.json`](./data/pregnancy_content.json)
 
 当前结构：
 
@@ -55,39 +55,48 @@
 - `send_time`: 每日发送时间（`HH:MM`）
 - `timezone`: 时区（默认 `Asia/Shanghai`）
 - `due_date`: 预产期（`YYYY-MM-DD`，优先计算孕周）
-- `lmp_date`: 孕期第一天（`YYYY-MM-DD`，默认 `2026-01-16`）
+- `lmp_date`: 孕期第一天（`YYYY-MM-DD`）
 - `gestational_days`: 未填预产期时的备用孕周天数
 - `content_file`: 本地内容文件路径（默认 `data/pregnancy_content.json`）
 - `custom_knowledge`: 每行一条，自定义覆盖“今日主题总结”
 
-## 使用方法
+## 用法说明（参考 AstrBot 官方文档）
 
-在目标 QQ 群发送：
+1. 在 AstrBot WebUI 中启用插件 `孕早安日报`。
+2. 在插件配置中至少填写：
+   - `enabled=true`
+   - `send_time`（如 `08:00`）
+   - `timezone`（如 `Asia/Shanghai`）
+   - `due_date` 或 `lmp_date`（二选一，推荐填写 `due_date`）
+3. 保存配置后，在目标 QQ 群发送绑定命令：
+   - `/孕早安绑定`
+4. 用测试命令确认消息内容：
+   - `/孕早安测试`
+5. 到达 `send_time` 后，插件会按已绑定群自动推送；也可手动触发：
+   - `/孕早安立即推送`
 
-- `/孕早安绑定`：绑定当前群
+### 群内命令
+
+- `/孕早安绑定`：绑定当前群到推送列表
 - `/孕早安解绑`：解绑当前群
-- `/孕早安状态`：查看配置与知识库状态
-- `/孕早安测试`：预览今天消息
-- `/孕早安立即推送`：立即群发一次
-- `/孕早安重载知识库`：重载本地 JSON 文档
-
-基准默认值说明：
-
-- 以 `2026-02-26` 为怀孕第 `42` 天倒推，孕期第一天为 `2026-01-16`
-- 对应预产期约为 `2026-10-23`
+- `/孕早安状态`：查看配置、知识库路径、已绑定群数量
+- `/孕早安测试`：预览今日消息
+- `/孕早安立即推送`：立即向所有已绑定群发送一次
+- `/孕早安重载知识库`：重新加载本地 JSON 内容文件
 
 ## 官方文档参考
 
 - [插件开发指南](https://docs.astrbot.app/dev/star/plugin-new.html)
 - [发送消息（主动消息）](https://docs.astrbot.app/dev/star/guides/send-message.html)
 - [插件配置](https://docs.astrbot.app/dev/star/guides/plugin-config.html)
+- [消息事件与命令过滤器](https://docs.astrbot.app/dev/star/plugin-struct.html)
 
 ## 关键文件
 
-- [/Users/xdy/Desktop/AstrBot/data/plugins/daily-message/main.py](/Users/xdy/Desktop/AstrBot/data/plugins/daily-message/main.py)
-- [/Users/xdy/Desktop/AstrBot/data/plugins/daily-message/_conf_schema.json](/Users/xdy/Desktop/AstrBot/data/plugins/daily-message/_conf_schema.json)
-- [/Users/xdy/Desktop/AstrBot/data/plugins/daily-message/data/pregnancy_content.json](/Users/xdy/Desktop/AstrBot/data/plugins/daily-message/data/pregnancy_content.json)
-- [/Users/xdy/Desktop/AstrBot/data/plugins/daily-message/metadata.yaml](/Users/xdy/Desktop/AstrBot/data/plugins/daily-message/metadata.yaml)
+- [`main.py`](./main.py)
+- [`_conf_schema.json`](./_conf_schema.json)
+- [`data/pregnancy_content.json`](./data/pregnancy_content.json)
+- [`metadata.yaml`](./metadata.yaml)
 
 ## License
 
