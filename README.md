@@ -1,4 +1,4 @@
-# astrbot-plugin-daily-message
+# astrbot-pregnancy-daily-care
 
 一个面向孕期场景的 AstrBot 插件：每天定时在 QQ 群推送一条「孕早安」消息，包含：
 
